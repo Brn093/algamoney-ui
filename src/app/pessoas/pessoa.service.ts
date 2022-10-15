@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { Lancamento, Pessoa } from '../core/model';
 
 export class PessoaFiltro {
     nome!: string;
@@ -16,6 +17,21 @@ export class PessoaService {
     pessoasUrl = 'http://localhost:8080/pessoas';
 
     constructor(private http: HttpClient) { }
+
+    adicionar(pessoa: Pessoa): Promise<Pessoa> {
+        const headers = new HttpHeaders()
+          .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+          .append('Content-Type', 'application/json');
+    
+          const res = firstValueFrom(this.http.post<Pessoa>(`${this.pessoasUrl}`, pessoa, {
+            headers
+          }))
+            .then((res: any) => {
+              return res;
+            })
+      
+          return res;
+    }
 
     pesquisar(filtro: PessoaFiltro): Promise<any> {
         const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
@@ -61,6 +77,6 @@ export class PessoaService {
 
         return this.http.get(this.pessoasUrl, { headers })
             .toPromise()
-            .then( response => response);
+            .then(response => response);
     }    
 }

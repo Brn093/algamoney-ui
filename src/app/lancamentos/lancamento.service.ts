@@ -27,6 +27,10 @@ export class LancamentoService {
 
   constructor(private http: HttpClient) { }  
 
+  //const today = new Date();
+  //console.log(new Intl.DateTimeFormat('pt-BR').format(today));
+  //console.log(new Intl.DateTimeFormat('pt-BR').format(this.dataVencimentoDe));
+  
   adicionar(lancamento: Lancamento): Promise<Lancamento> {
     const headers = new HttpHeaders()
       .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
@@ -34,7 +38,9 @@ export class LancamentoService {
 
     console.log(lancamento);
 
-    const res = firstValueFrom(this.http.post<Lancamento>(`${this.lancamentosUrl}`, { lancamento, headers }))
+    const res = firstValueFrom(this.http.post<Lancamento>(`${this.lancamentosUrl}`, lancamento, {
+      headers
+    }))
       .then((res: any) => {
         return res;
       })
@@ -80,5 +86,44 @@ export class LancamentoService {
     return this.http.delete(`${this.lancamentosUrl}/${id}`, { headers: { 'Authorization' : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==' }})
       .toPromise()
       .then(() => null);
+  }
+
+  atualizar(lancamento: Lancamento): Promise<Lancamento> {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'application/json');
+    
+    return firstValueFrom(this.http.put<Lancamento>(`${this.lancamentosUrl}/${lancamento.id}`,
+        JSON.stringify(lancamento), { headers }))
+        .then((response: any) => {
+          this.converterStringsParaDatas([response]);
+  
+          return response;
+        });
+  }
+
+  buscarPorId(id: number): Promise<Lancamento> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    return firstValueFrom(this.http.get(`${this.lancamentosUrl}/${id}`, { headers }))
+      .then((response:any) => {
+        this.converterStringsParaDatas([response]);
+
+        return response;
+      });
+  }
+
+
+  private converterStringsParaDatas(lancamentos: Lancamento[]) {
+    for (const lancamento of lancamentos) {
+      let offset = new Date().getTimezoneOffset() * 60000;
+
+      lancamento.dataVencimento = new Date(new Date(lancamento.dataVencimento!).getTime() + offset);
+
+      if (lancamento.dataPagamento) {
+        lancamento.dataPagamento = new Date(new Date(lancamento.dataPagamento).getTime() + offset);
+      }
+    }
   }
 }

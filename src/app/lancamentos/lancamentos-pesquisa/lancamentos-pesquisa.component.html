@@ -57,7 +57,8 @@
                     <span [style.color]="lancamento.tipo === 'DESPESA' ? 'red' : 'blue'">{{lancamento.valor | number:'1.2-2' }}</span>
                   </th>
                   <th class="col-acoes">
-                    <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                    <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
+                    [routerLink]="['/lancamentos', lancamento.id]"></a>
                     <button pButton icon="pi pi-trash" style="margin: 0 .5em;" 
                         pTooltip="Excluir" tooltipPosition="top" (click)="confirmarExclusao(lancamento)"></button>
                   </th>
@@ -69,7 +70,7 @@
 
     <div class="grid">      
       <div class="col-12">
-        <a pButton label="Novo Lançamento"></a>
+        <a pButton label="Novo Lançamento" routerLink="/lancamentos/novo"></a>
       </div>
     </div>
 </div>

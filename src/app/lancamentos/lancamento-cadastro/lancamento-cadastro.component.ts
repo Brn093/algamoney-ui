@@ -6,6 +6,7 @@ import { FormControl, NgForm } from '@angular/forms';
 import { Lancamento } from '../../core/model';
 import { LancamentoService } from '../lancamento.service';
 import { MessageService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -32,15 +33,45 @@ export class LancamentoCadastroComponent implements OnInit {
     private lancamentoService: LancamentoService,
     private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    const idLancamento = this.route.snapshot.params['id'];    
+
+    if (idLancamento && idLancamento !== 'novo') {
+      this.carregarLancamento(idLancamento)
+    }
+
     this.carregarCategorias();
     this.carregarPessoas();
   }
 
-  async salvar(form: NgForm) {    
+  carregarLancamento(id: number) {
+    this.lancamentoService.buscarPorId(id)
+      .then(lancamento => {
+        this.lancamento = lancamento;
+      }).catch(erro => this.errorHandler.handle(erro));
+  }
+
+  salvar(form: NgForm) {
+    if(this.editando) {
+      this.atualizarLancamento(form);
+    } else {
+      this.adicionarLancamento(form);
+    }
+  }
+
+  atualizarLancamento(form: NgForm) {
+    this.lancamentoService.atualizar(this.lancamento)
+      .then(lancamento => {
+        this.lancamento = lancamento;        
+        this.messageService.add({severity:'success', summary:'Lancamento alterado com sucesso!'});    
+      }).catch(erro => this.errorHandler.handle(erro));
+  }
+
+  adicionarLancamento(form: NgForm) {    
     this.lancamentoService.adicionar(this.lancamento).then(() =>{
       this.messageAdd();
       form.reset();
@@ -49,7 +80,7 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   messageAdd() {
-    this.messageService.add({severity:'success', summary:'Carro novo'});
+    this.messageService.add({severity:'success', summary:'Cadastro realizado'});
   }
 
   carregarCategorias() {
@@ -75,5 +106,8 @@ export class LancamentoCadastroComponent implements OnInit {
     .catch(error => this.errorHandler.handle(error));
   }
 
+  get editando() {
+    return Boolean(this.lancamento.id);
+  }
 
 }
