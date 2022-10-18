@@ -37,7 +37,7 @@ export class LancamentoCadastroComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  ngOnInit(){
     const idLancamento = this.route.snapshot.params['id'];    
 
     if (idLancamento && idLancamento !== 'novo') {

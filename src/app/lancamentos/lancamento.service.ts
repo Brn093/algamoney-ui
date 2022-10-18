@@ -89,17 +89,17 @@ export class LancamentoService {
   }
 
   atualizar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'application/json');
-    
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+      .append('Content-Type', 'application/json');
+
     return firstValueFrom(this.http.put<Lancamento>(`${this.lancamentosUrl}/${lancamento.id}`,
-        JSON.stringify(lancamento), { headers }))
-        .then((response: any) => {
-          this.converterStringsParaDatas([response]);
-  
-          return response;
-        });
+      lancamento, { headers }))
+      .then((response: any) => {
+        this.converterStringsParaDatas([response]);
+
+        return response;
+      });
   }
 
   buscarPorId(id: number): Promise<Lancamento> {
