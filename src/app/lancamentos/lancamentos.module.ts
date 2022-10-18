@@ -12,8 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { TableModule } from 'primeng/table';
 import { SharedModule } from '../shared/shared.module';
-import { RouterModule } from '@angular/router';
-
+import { LancamentosRoutingModule } from './lancamentos-routing.module';
 
 
 @NgModule({
@@ -24,7 +23,6 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
     InputTextModule,
     ButtonModule,
     TooltipModule,
@@ -33,11 +31,10 @@ import { RouterModule } from '@angular/router';
     DropdownModule,
     InputMaskModule,
     TableModule,
-    SharedModule
+    SharedModule,
+    LancamentosRoutingModule
   ],
   exports: [
-    LancamentoCadastroComponent,
-    LancamentosPesquisaComponent
   ]
 })
 export class LancamentosModule { }

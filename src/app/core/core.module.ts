@@ -14,11 +14,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { RouterModule } from '@angular/router';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { Title } from '@angular/platform-browser';
 
 registerLocaleData(localePt, 'pt-BR');
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
   imports: [
     CommonModule,
     ConfirmDialogModule,
@@ -39,6 +41,7 @@ registerLocaleData(localePt, 'pt-BR');
     PessoasModule, 
     MessageService, 
     ConfirmationService,
+    Title,
     TranslateService,
   ]
 })
