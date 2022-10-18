@@ -74,7 +74,7 @@ export class LancamentoCadastroComponent implements OnInit {
       .then(lancamento => {
         this.lancamento = lancamento;        
         this.messageService.add({severity:'success', summary:'Lancamento alterado com sucesso!'});    
-        this.atualizarTituloEdicao();
+        this.atualizarTituloEdicao();        
       }).catch(erro => this.errorHandler.handle(erro));
   }
 

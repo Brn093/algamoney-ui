@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaFiltro, PessoaService } from './../pessoa.service';
@@ -8,7 +9,7 @@ import { PessoaFiltro, PessoaService } from './../pessoa.service';
   templateUrl: './pessoas-pesquisa.component.html',
   styleUrls: ['./pessoas-pesquisa.component.css']
 })
-export class PessoasPesquisaComponent {
+export class PessoasPesquisaComponent implements OnInit {
   totalRegistros = 0;
   filtro = new PessoaFiltro();  
   @Input() pessoas = [];
@@ -18,8 +19,14 @@ export class PessoasPesquisaComponent {
     private pessoaService: PessoaService,
     private messageService: MessageService,
     private confirmation: ConfirmationService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private title: Title,
   ) { }
+
+  ngOnInit() {
+    //this.pesquisar();
+    this.title.setTitle('Pesquisa de pessoas')
+  }
   
   pesquisar(pagina = 0) {
 
