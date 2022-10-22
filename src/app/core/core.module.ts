@@ -16,6 +16,8 @@ import { PessoaService } from '../pessoas/pessoa.service';
 import { RouterModule } from '@angular/router';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../seguranca/auth.service';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -38,11 +40,13 @@ registerLocaleData(localePt, 'pt-BR');
     PessoaService,
     ErrorHandlerService,
     LancamentosModule, 
+    AuthService,
     PessoasModule, 
     MessageService, 
     ConfirmationService,
     Title,
     TranslateService,
+    JwtModule
   ]
 })
 export class CoreModule { }

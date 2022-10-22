@@ -23,6 +23,7 @@ import { LancamentoCadastroComponent } from './lancamentos/lancamento-cadastro/l
 import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pesquisa.component';
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
@@ -44,7 +45,7 @@ const routes: Routes = [
     HelloComponent,
     BemVindoComponent,
     FuncionarioCardComponent,
-    FuncionarioFormComponent,
+    FuncionarioFormComponent,    
   ],
   imports: [
     FormsModule,
@@ -54,6 +55,7 @@ const routes: Routes = [
     PessoasModule,
     SharedModule,
     CoreModule,
+    SegurancaModule,
     HttpClientModule,    
     CurrencyMaskModule,
     AppRoutingModule,

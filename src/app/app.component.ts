@@ -2,6 +2,7 @@ import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 class Cliente {
   nome!: string;
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private config: PrimeNGConfig, 
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -43,4 +45,7 @@ export class AppComponent implements OnInit {
     // console.log(this.cliente);
   }
 
+  exibindoNavbar() {
+    return this.router.url !== '/login';
+  }
 }
