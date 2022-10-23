@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,9 +11,25 @@ import { AuthService } from '../auth.service';
 })
 export class LoginFormComponent {
 
-  constructor(public auth: AuthService) { }
+  constructor(
+    public auth: AuthService,
+    private errorHandler: ErrorHandlerService,
+    private router: Router,
+    private messageService: MessageService,
+    ) { }
 
   login(usuario: string, senha: string) {
-    this.auth.login(usuario, senha);
+    this.auth.login(usuario, senha)
+      .then(() => {
+        this.router.navigate(['/lancamentos']);
+      })
+      .catch(erro => {
+        this.messageAdd();
+        this.errorHandler.handle(erro);
+      });
+  }
+
+  messageAdd() {
+    this.messageService.add({severity:'error', summary:'Usuário ou senha inválidos'});
   }
 }
