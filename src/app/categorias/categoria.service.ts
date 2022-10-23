@@ -10,11 +10,9 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) { }
 
-  listarTodas(): Promise<any> {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.get(this.categoriasUrl, { headers })
+  listarTodas(): Promise<any> {    
+    
+    return this.http.get(this.categoriasUrl)
       .toPromise()
       .then( response => response);
   }
