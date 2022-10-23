@@ -9,6 +9,7 @@ export class AuthService {
 
   oauthTokenUrl = 'http://localhost:8080/oauth/token';
   jwtPayLoad: any;
+  auth!: any;
 
   constructor(
     private http: HttpClient,
@@ -38,6 +39,10 @@ export class AuthService {
         }
         return Promise.reject(response);
       });
+  }
+
+  temPermissao(permissao: string) {
+    return this.jwtPayLoad && this.jwtPayLoad.authorities.includes(permissao);
   }
 
   private armazenarToken(token: string) {
