@@ -4,6 +4,7 @@ import { LancamentoFiltro, LancamentoService } from './../lancamento.service';
 import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -23,6 +24,7 @@ export class LancamentosPesquisaComponent implements OnInit {
     private confirmation: ConfirmationService,
     private errorHandler: ErrorHandlerService,
     private title: Title,
+    private auth: AuthService,
   ) { }
 
   ngOnInit() {
@@ -74,4 +76,8 @@ export class LancamentosPesquisaComponent implements OnInit {
   messageDelete(lancamento: any) {
     this.messageService.add({severity:'success', summary:'Lançamento ' + `${lancamento.id}` + ' excluído com sucesso!!!'});
   } 
+
+  naoTemPermissao(permissao: string) {
+    return !this.auth.temPermissao(permissao);
+  }
 }
