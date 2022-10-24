@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NaoAutorizadoComponent } from './core/nao-autorizado.component';
 
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.component';
 import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pesquisa.component';
@@ -7,6 +8,7 @@ import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pes
 const routes: Routes = [
   { path: '', redirectTo: 'lancamentos', pathMatch: 'full' },  
   { path: 'pessoas', component: PessoasPesquisaComponent },
+  { path: 'nao-autorizado', component: NaoAutorizadoComponent },
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' },
 ];
