@@ -41,7 +41,7 @@ export function tokenGetter(): any {
       useClass: MoneyHttpInterceptor,
       multi: true
     },
-    AuthGuard
+    AuthGuard,    
   ]
 })
 export class SegurancaModule { }
