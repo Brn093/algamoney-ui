@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   constructor(
     private config: PrimeNGConfig, 
     private translateService: TranslateService,
-    private router: Router
+    private router: Router    
   ) {}
 
   ngOnInit() {

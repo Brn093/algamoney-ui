@@ -15,12 +15,11 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public auth: AuthService,    
-    private errorHandler: ErrorHandlerService,
-    private router: Router
+    private errorHandler: ErrorHandlerService,    
   ) { }
 
   ngOnInit() {
-    //this.usuarioLogado = this.auth.jwtPayLoad?.nome;
+    this.usuarioLogado = this.auth.jwtPayLoad?.nome;
   }
 
   temPermissao(permissao: string) {
@@ -34,9 +33,11 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.auth.logout()
       .then(() => {
-        this.router.navigate(['/login']);
+        this.auth.limparAccessToken();        
       })
-      .catch(erro => this.errorHandler.handle(erro));
+      .catch(        
+        erro => this.errorHandler.handle(erro)
+      );
   }
 
 }
