@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { format } from  'date-fns';
 import { Lancamento } from '../core/model';
+import { environment } from 'src/environments/environment';
 
 export class LancamentoFiltro {
   dataVencimentoAte: any;
@@ -19,13 +20,15 @@ export class LancamentoFiltro {
 })
 export class LancamentoService { 
 
-  lancamentosUrl = 'http://localhost:8080/lancamentos';
+  lancamentosUrl!: string;
   datePipe: any;
   dataVencimentoDe!: Date;
   //lancamentoService: any;
   //grid: any;
 
-  constructor(private http: HttpClient) { }  
+  constructor(private http: HttpClient) {
+    this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
+  }  
 
   //const today = new Date();
   //console.log(new Intl.DateTimeFormat('pt-BR').format(today));

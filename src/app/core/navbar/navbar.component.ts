@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.auth.logout()
       .then(() => {
-        this.auth.limparAccessToken();        
+        this.auth.limparAccessToken();
       })
       .catch(        
         erro => this.errorHandler.handle(erro)
