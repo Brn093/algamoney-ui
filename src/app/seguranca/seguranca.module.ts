@@ -22,8 +22,8 @@ export function tokenGetter(): any {
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        allowedDomains: environment.tokenAllowedDomains,
-        disallowedRoutes: environment.tokenDisallowedRoutes
+        allowedDomains: ['localhost:8080'],
+        disallowedRoutes: ['http://localhost:8080/oauth/token']
       }
     }),
     CommonModule,
