@@ -22,8 +22,8 @@ export function tokenGetter(): any {
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        //allowedDomains: environment.tokenAllowedDomains,
-        //disallowedRoutes: environment.tokenDisallowedRoutes
+        allowedDomains: environment.tokenAllowedDomains,
+        disallowedRoutes: environment.tokenDisallowedRoutes
       }
     }),
     CommonModule,
