@@ -30,10 +30,10 @@
           formControlName="descricao"
           [required]="true" minlength="5">
         
-        <app-message [control]="formulario.get('descricao')" error="required"
+        <app-message [control]="formulario.get('descricao')" error="obrigatoriedade"
           text="Informe a descrição"></app-message>
-        <app-message [control]="formulario.get('descricao')" error="minlength"
-          text="Mínimo de {{ formulario.get('descricao')?.errors?.['minlength']?.requiredLength }} caracteres"></app-message>
+        <app-message [control]="formulario.get('descricao')" error="tamanhoMinimo"
+          text="Mínimo de {{ formulario.get('descricao')?.errors?.['tamanhoMinimo']?.tamanho }} caracteres"></app-message>
       </div>
 
       <div class="col-12 md-3 p-fluid">
