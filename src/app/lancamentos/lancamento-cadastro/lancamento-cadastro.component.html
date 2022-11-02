@@ -1,5 +1,5 @@
 <div class="container">
-  <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+  <form autocomplete="off" (ngSubmit)="salvar()" [formGroup]="formulario">
 
     <div class="grid">
       <div class="col-12">
@@ -7,64 +7,64 @@
       </div>
 
       <div class="col-12">
-        <p-selectButton name="tipo" [(ngModel)]="lancamento.tipo" ngModel [options]="tipos" #tipo></p-selectButton>
+        <p-selectButton name="tipo" [options]="tipos" formControlName="tipo"></p-selectButton>
       </div>
 
       <div class="col-6 md-3 p-fluid">
         <label>Vencimento</label>
         <p-calendar name="vencimento" 
-          [inline]="false" [readonlyInput]="false" [showIcon]="false" [(ngModel)]="lancamento.dataVencimento"
-          ngModel #vencimento="ngModel" [required]="true"></p-calendar>
+          [inline]="false" [readonlyInput]="false" [showIcon]="false" name="dataVencimento" formControlName="dataVencimento"></p-calendar>
         
-        <app-message [control]="vencimento.control" error="required"
+        <app-message [control]="formulario.get('dataVencimento')" error="required"
           text="Informe uma data de vencimento"></app-message>
       </div>
 
       <div class="col-6 md-3 p-fluid">
-        <label>{{ tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento' }}</label>
-        <p-calendar name="dataPagamento" [(ngModel)]="lancamento.dataPagamento"></p-calendar>
+        <label>{{ formulario.get('tipo')?.value === 'RECEITA' ? 'Recebimento' : 'Pagamento' }}</label>
+        <p-calendar name="dataPagamento" formControlName="dataPagamento"></p-calendar>
       </div>
 
       <div class="col-12 md-9 p-fluid">
         <label>Descrição</label>
-        <input pInputText type="text" name="descricao" [(ngModel)]="lancamento.descricao"
-          ngModel #descricao="ngModel" [required]="true" minlength="5">
+        <input pInputText type="text" name="descricao"
+          formControlName="descricao"
+          [required]="true" minlength="5">
         
-        <app-message [control]="descricao.control" error="required"
+        <app-message [control]="formulario.get('descricao')" error="required"
           text="Informe a descrição"></app-message>
-        <app-message [control]="descricao.control" error="minlength"
-          text="Mínimo de {{ descricao.errors?.['minlength']?.requiredLength }} caracteres"></app-message>
+        <app-message [control]="formulario.get('descricao')" error="minlength"
+          text="Mínimo de {{ formulario.get('descricao')?.errors?.['minlength']?.requiredLength }} caracteres"></app-message>
       </div>
 
       <div class="col-12 md-3 p-fluid">
         <label>Valor</label>
-        <input pInputText currencyMask mode="currency" currency="BRL" locale='pt-BR' placeholder="0,00" [(ngModel)]="lancamento.valor" ngModel
-          [required]="true" name="valor" #valor="ngModel">
+        <input pInputText currencyMask mode="currency" currency="BRL" locale='pt-BR' placeholder="0,00"
+          [required]="true" name="valor" formControlName="valor">
       </div>
 
-      <div class="col-12 md-6 p-fluid">
+      <div class="col-12 md-6 p-fluid" formGroupName="categoria">
         <label>Categoria</label>
-        <p-dropdown name="categoria" [options]="categorias" [(ngModel)]="lancamento.categoria.id" #categoria
-          placeholder="Selecione"
-          ngModel [required]="true"></p-dropdown>
+        <p-dropdown name="categoria" [options]="categorias"
+          placeholder="Selecione" formControlName="id"></p-dropdown>
       </div>
 
-      <div class="col-12 md-6 p-fluid">
+      <div class="col-12 md-6 p-fluid" formGroupName="pessoa">
         <label>Pessoa</label>
-        <p-dropdown name="pessoa" [options]="pessoas" placeholder="Selecione" [(ngModel)]="lancamento.pessoa.id" #pessoa
-          [filter]="true" ngModel [required]="true"></p-dropdown>
+        <p-dropdown name="pessoa" [options]="pessoas" placeholder="Selecione" 
+          [filter]="true" [required]="true" formControlName="id"></p-dropdown>
       </div>
 
       <div class="col-12 p-fluid">
         <label>Observação</label>
-        <textarea id="observacao" type="text" rows="4" [(ngModel)]="lancamento.observacao" ngModel name="observacao" #observacao
-        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        <textarea id="observacao" type="text" rows="4" name="observacao"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          formControlName="observacao">
         </textarea>
       </div>
 
       <div class="col-12">
-        <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
-        <button pButton type="button" label="Novo" class="ui-button-info" (click)="novo(f)"></button>
+        <button pButton type="submit" label="Salvar" [disabled]="formulario.invalid"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info" (click)="novo()"></button>
         <a routerLink="/lancamentos">Voltar para a pesquisa</a>
       </div>
     </div>

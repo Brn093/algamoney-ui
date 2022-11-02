@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaService } from 'src/app/categorias/categoria.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { Lancamento } from '../../core/model';
 import { LancamentoService } from '../lancamento.service';
 import { MessageService } from 'primeng/api';
@@ -24,10 +24,9 @@ export class LancamentoCadastroComponent implements OnInit {
   ];
 
   categorias = [];
-
-  pessoas = [];
-  
+  pessoas = [];  
   lancamento = new Lancamento();
+  formulario!: FormGroup;
 
   constructor(
     private categoriaService: CategoriaService,
@@ -37,10 +36,13 @@ export class LancamentoCadastroComponent implements OnInit {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private title: Title
+    private title: Title,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(){
+    this.configurarFormulario();
+
     const idLancamento = this.route.snapshot.params['id'];
     
     this.title.setTitle('Novo lançamento');
@@ -53,33 +55,55 @@ export class LancamentoCadastroComponent implements OnInit {
     this.carregarPessoas();
   }
 
+  configurarFormulario() {
+    this.formulario = this.formBuilder.group({
+      id: [],
+      tipo: ['RECEITA', Validators.required],
+      dataVencimento: [null, Validators.required],
+      dataPagamento: [],
+      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      valor: [null, Validators.required],
+      pessoa: this.formBuilder.group({
+        id: [null, Validators.required],
+        nome: []
+      }),
+      categoria: this.formBuilder.group({
+        id: [null, Validators.required],
+        nome: []
+      }),
+      observacao: []
+    });
+  }
+
   carregarLancamento(id: number) {
     this.lancamentoService.buscarPorId(id)
       .then(lancamento => {
-        this.lancamento = lancamento;
+        //this.lancamento = lancamento;
+        this.formulario.patchValue(lancamento);
         this.atualizarTituloEdicao();
       }).catch(erro => this.errorHandler.handle(erro));
   }
 
-  salvar(form: NgForm) {
+  salvar() {
     if(this.editando) {
-      this.atualizarLancamento(form);
+      this.atualizarLancamento();
     } else {
-      this.adicionarLancamento(form);
+      this.adicionarLancamento();
     }
   }
 
-  atualizarLancamento(form: NgForm) {    
-    this.lancamentoService.atualizar(this.lancamento)
+  atualizarLancamento() {    
+    this.lancamentoService.atualizar(this.formulario.value)
       .then(lancamento => {
-        this.lancamento = lancamento;        
+        //this.lancamento = lancamento;
+        this.formulario.patchValue(lancamento);
         this.messageService.add({severity:'success', summary:'Lancamento alterado com sucesso!'});    
         this.atualizarTituloEdicao();        
       }).catch(erro => this.errorHandler.handle(erro));
   }
 
-  adicionarLancamento(form: NgForm) {    
-    this.lancamentoService.adicionar(this.lancamento)
+  adicionarLancamento() {    
+    this.lancamentoService.adicionar(this.formulario.value)
       .then(lancamentoAdicionado =>{
       this.messageAdd();
       //form.reset();
@@ -116,20 +140,16 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   get editando() {
-    return Boolean(this.lancamento.id);
+    return Boolean(this.formulario.get('id')?.value);
   }
 
-  novo(form: NgForm) {
-    form.reset();
-    
-    setTimeout(() => {
-      this.lancamento = new Lancamento();
-    }, 1);
-
-    this.router.navigate(['/lancamentos/novo']);
+  novo() {
+    this.formulario.reset();
+    this.formulario.patchValue(new Lancamento())
+    this.router.navigate(['lancamentos/novo']);
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`);
+    this.title.setTitle(`Edição de lançamento: ${this.formulario.get('descricao')}`);
   }
 }
