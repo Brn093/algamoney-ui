@@ -7,9 +7,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pesquisa.component';
 
 const routes: Routes = [
+  { path: 'dashboard', loadChildren: () => import('../app/dashboard/dashboard.module').then(m => m.DashboardModule) },
   { path: 'lancamentos', loadChildren: () => import('../app/lancamentos/lancamentos.module').then(m => m.LancamentosModule) },
   { path: 'pessoas', loadChildren: () => import('../app/pessoas/pessoas.module').then(m => m.PessoasModule) },
-  { path: 'dashboard', loadChildren: () => import('../app/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'relatorios', loadChildren: () => import('../app/relatorios/relatorios.module').then(m => m.RelatoriosModule) },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },  
   //{ path: 'pessoas', component: PessoasPesquisaComponent },
   { path: 'nao-autorizado', component: NaoAutorizadoComponent },
