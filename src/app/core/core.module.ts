@@ -13,6 +13,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { DashboardService } from '../dashboard/dashboard.service';
+import { RelatoriosService } from '../relatorios/relatorios.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { RouterModule } from '@angular/router';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
@@ -43,6 +44,7 @@ registerLocaleData(localePt, 'pt-BR');
     LancamentosModule, 
     DashboardService,
     AuthService,
+    RelatoriosService,
     PessoasModule, 
     MessageService, 
     ConfirmationService,
