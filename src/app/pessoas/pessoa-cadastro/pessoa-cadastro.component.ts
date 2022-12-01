@@ -18,6 +18,8 @@ export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
 
+  exibindoFormularioContato = false;
+
   constructor(
     private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
@@ -84,6 +86,10 @@ export class PessoaCadastroComponent implements OnInit {
 
   get editando() {
     return Boolean(this.pessoa.id);
+  }
+
+  prepararNovoContato() {
+    this.exibindoFormularioContato = true;
   }
 
   novo(form: NgForm) {

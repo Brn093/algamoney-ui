@@ -14,6 +14,7 @@ import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.co
 import { SharedModule } from '../shared/shared.module';
 import { PessoasRoutingModule } from './pessoas-routing.module';
 import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PanelModule } from 'primeng/panel';
     CalendarModule,
     SelectButtonModule,
     DropdownModule,
+    DialogModule,
     InputMaskModule,
     TableModule,
     SharedModule,
